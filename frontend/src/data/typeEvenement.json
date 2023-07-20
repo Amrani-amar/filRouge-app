@@ -1,0 +1,12 @@
+ [
+    {"id": 1, "title": "Mariage"},
+    {"id": 2, "title": "Anniverssaire"},
+    {"id": 3, "title": "Conference"},
+    {"id": 4, "title": "Fiancaille"},
+    {"id": 5, "title": "Circoncision"},
+    {"id": 6, "title": "Caritative"},
+    {"id": 7, "title": "Religieux"},
+    {"id": 8, "title": "Formation"},
+    {"id": 9, "title": "Seminaire"},
+    {"id": 10, "title": "Autre"}
+  ]
