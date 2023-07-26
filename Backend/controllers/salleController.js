@@ -6,6 +6,7 @@ import fs from 'fs';
 // valider la salle 
 export const validerSalle = async (req, res) => { 
       // Vérifier le rôle de l'utilisateur
+    
     const userRole = res.locals.role;
     console.log(userRole);
     if (userRole !== 'admin') {
@@ -31,6 +32,36 @@ export const validerSalle = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// valider la salle 
+export const refuserSalle = async (req, res) => { 
+      // Vérifier le rôle de l'utilisateur
+    const userRole = res.locals.role;
+    console.log(userRole);
+    if (userRole !== 'admin') {
+      throw new Error('Accès refusé. Seuls les admiNs peuvent valider une salle.');
+    }
+    
+    try {
+    const { id } = req.params;
+    // const {status} = req.body
+    const salle = await Salle.findById(id);
+
+    if (!salle) {
+      throw new Error('Salle introuvable');
+    }
+    
+
+    // salle.statut = status;
+    salle.statut = "nonValidée";
+    await salle.save();
+
+    res.status(200).json({ message: 'La salle a été validée avec succès', salle });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Recuperer toutes les salles
 export const getAllSalles = async (req, res) => {
   console.log('ici getallsalles');
@@ -49,6 +80,7 @@ export const getAllSalles = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
 // Recuperer Toutes les salles EN ATTENTE
 export const getSallesEnAttente = async (req, res) => {
   const userRole = res.locals.role;
@@ -73,7 +105,10 @@ export const getSallesEnAttente = async (req, res) => {
 // get toutes les SALLES VALIDEES
 export const getSallesValidees = async (req, res) => {
   const filter = {statut:'validée'}
-
+  req.query.type_Evenement && (filter.type_Evenement = req.query.type_Evenement)
+  req.query.wilaya && (filter.wilaya = req.query.wilaya)
+  req.query.commune && (filter.commune = req.query.commune)
+  console.log(req.query.type_Evenement, req.query.wilaya, req.query.commune)
   try {
     const salles = await Salle.find(filter);
     console.log("Salles validées :", salles);
@@ -103,7 +138,6 @@ export const getSallesNonValidees = async (req, res) => {
     res.status(500).json({ message: "Erreur lors de la récupération des salles nonValidées" });
   }
 };
-
 
 // Recuperer une salle par son ID
 export const getSalleById = async (req, res) => {
@@ -186,6 +220,7 @@ export const updateSalle = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
 // Supprimer une Salle
 export const deleteSalle = async (req, res) => {
   try {
@@ -193,11 +228,11 @@ export const deleteSalle = async (req, res) => {
     const salle = await Salle.findById(id);
     if (!salle) throw new Error('Salle introuvable');
 
-    const userRole = res.locals.userRole; // Récupérer le rôle de l'utilisateur
+    const userRole = res.locals.role; // Récupérer le rôle de l'utilisateur
     const userId = res.locals.userId; // Récupérer l'ID de l'utilisateur connecté
 
     // Vérifier si l'utilisateur connecté est l'admin ou le gérant qui a créé la salle
-    if (userRole !== 'admin' && (userRole !== 'gerant' || salle.user !== userId)) {
+    if ( userRole !== 'admin' && (userRole !== 'gerant' || salle.user.toString() !== userId)) {
       return res.status(403).json({ message: "Vous n'êtes pas autorisé à supprimer cette salle." });
     }
 

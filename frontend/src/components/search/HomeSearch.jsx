@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "./Select";
 import Chainedselect from "./Chainedselect";
 import wilayas from "../../data/wilayas.json";

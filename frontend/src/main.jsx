@@ -13,6 +13,13 @@ import Detailsalle from './pages/Detailsalle';
 import Connexion from './pages/Connexion';
 import Register from './pages/Register';
 import Reservation from './pages/Reservation';
+import AjouterSalle from './pages/AjouterSalle';
+import Dashboard from './layouts/Dashboard';
+import Mesreservation from './pages/utilisateur/Mesreservation'
+import MesSalles from './pages/gerant/MesSalles';
+import SalleReservation from './pages/gerant/Reservation';
+import AllSalles from './pages/admin/Salles';
+import Users from './pages/admin/Users';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +42,37 @@ const router = createBrowserRouter([
         path: '/Reserver/:salleId/',
         element : <Reservation/>
       },
-      //add new sub elements
+      {
+        path: '/ajouterSalle',
+        element: <AjouterSalle/>
+      },
+      {
+        path: '/dashboard',
+        element : <Dashboard/>,
+        children: [
+          {
+            path: 'user/mesreservation',
+            element : <Mesreservation/>
+          },
+          {
+            path: 'gerant/mesSalles',
+            element : <MesSalles/>
+          },    
+          {
+            path: 'gerant/mesSalles/:id',
+            element : <SalleReservation/>
+          },    
+          {
+            path: 'admin/salles',
+            element : <AllSalles/>
+          }  ,    
+          {
+            path: 'admin/users',
+            element : <Users/>
+          }      
+        ]
+      }
+    
     ]
   },
   {
@@ -45,7 +82,8 @@ const router = createBrowserRouter([
     path:"/s'enregistrer",
     element:<Register/>
   }
-  //add new elements
+  
+ 
   
 
 ]);

@@ -57,10 +57,7 @@ const reservationSchema = new Schema({
     enum: ['En attente', 'Confirmée', 'Annulée'],
     default: 'En attente'
   },
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now
-  // }
+ 
 },options);
 
 const Reservation = mongoose.model('Reservation', reservationSchema);

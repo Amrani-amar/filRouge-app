@@ -5,7 +5,7 @@ const salleSchema = new mongoose.Schema({
   user:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'User',
-    required:true
+    required: true
   },
   nom: {
     type: String,
@@ -51,13 +51,12 @@ const salleSchema = new mongoose.Schema({
     default: 'En attente'
   },
   type_Evenement:{
-    type:[{
-      type:String,
-    enum: [ 'Mariages','Anniverssaires','Conferences','Fiançailles','Circoncisions','Caritatives','Religieux','Formations','Seminaires','Autres']
-  }],
-  required:true
-}
-});
+    type:[String],
+    enum: [ 'Mariages','Anniverssaires','Conferences','Fiançailles','Circoncisions','Caritatives','Religieux','Formations','Seminaires'],
+    required:true
+    },
+},{timestamps:true}
+);
 
 const Salle = mongoose.model('Salle', salleSchema);
 

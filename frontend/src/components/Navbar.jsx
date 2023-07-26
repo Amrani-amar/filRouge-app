@@ -25,7 +25,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="navbar bg-transparent absolute">
+        <div className="navbar bg-black ">
             <div className="navbar-start">
                 <div className="dropdown">
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -51,11 +51,11 @@ const Navbar = () => {
                         <li>
                             <Link to="/salles" >Salles</Link>
                         </li>
-                      
+                       { localStorage?.role == "gerant" &&
                         <li>
                             <Link to="/ajouterSalle" >Ajouter une Salle</Link>
                         </li>
-                        
+}
                        {
                         isConnected || <>
                         <li><Link className="btn bg-white border-0 capitalize" to="/connexion">
@@ -81,18 +81,12 @@ const Navbar = () => {
                     <li>
                         <Link to="/salles" className="text-white  hover:text-white hover:bg-transparent">Salles</Link>
                     </li>
-                    {/* <li tabIndex={0}>
-        <details>
-          <summary>Actions</summary>
-          <ul className="p-2">
-            <li><a>Ajouter une Salles</a></li>
-            <li><a>Submenu 2</a></li>
-          </ul>
-        </details>
-      </li> */}
-                    <li>
+                  {
+                    localStorage?.role == "gerant" && <li>
                         <Link to="/ajouterSalle" className="text-white hover:text-white hover:bg-transparent">Ajouter une Salle</Link>
                     </li>
+                  }
+                    
                 </ul>
             </div>
             <div className="navbar-end gap-2">
@@ -104,6 +98,13 @@ const Navbar = () => {
                             onClick={handleLogout}
                         >
                             Déconnexion
+                        </button>
+                        <button
+                            className="btn capitalize border-0 bg-transparent text-white hovet:text-white hover:bg-transparent"
+                            to=""
+                            onClick={()=> navigate('/dashboard')}
+                        >
+                            Dashboard
                         </button>
                     </>
                 ) : (

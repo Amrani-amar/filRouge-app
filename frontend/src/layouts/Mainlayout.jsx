@@ -7,10 +7,12 @@ const Mainlayout = () => {
   return (
     <>
        <Navbar/>
-   <Outlet/>
+      <div className='max-w-7xl mx-auto'>
+        <Outlet />
+      </div>
     </>
 
   )
 }
 
-export default Mainlayout
+export default Mainlayout;

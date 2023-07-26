@@ -1,12 +1,12 @@
  [
-    {"id": 1, "title": "Mariage"},
-    {"id": 2, "title": "Anniverssaire"},
-    {"id": 3, "title": "Conference"},
-    {"id": 4, "title": "Fiancaille"},
-    {"id": 5, "title": "Circoncision"},
-    {"id": 6, "title": "Caritative"},
+    {"id": 1, "title": "Mariages"},
+    {"id": 2, "title": "Anniverssaires"},
+    {"id": 3, "title": "Conferences"},
+    {"id": 4, "title": "Fiancailles"},
+    {"id": 5, "title": "Circoncisions"},
+    {"id": 6, "title": "Caritatives"},
     {"id": 7, "title": "Religieux"},
-    {"id": 8, "title": "Formation"},
-    {"id": 9, "title": "Seminaire"},
-    {"id": 10, "title": "Autre"}
+    {"id": 8, "title": "Formations"},
+    {"id": 9, "title": "Seminaires"}
+
   ]

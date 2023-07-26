@@ -46,7 +46,8 @@ useEffect(()=>{
           navigate('/salles'); // Rediriger vers une autre page après la réservation
         } catch (error) {
           console.log(error);
-          setMessage('Une erreur s\'est produite lors de la création de la réservation.');
+          setMessage('Une erreur est produite lors de la création de la réservation.');
+        
         }
       };
 

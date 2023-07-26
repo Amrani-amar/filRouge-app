@@ -6,7 +6,9 @@ import Salle from '../models/salles.js';
 export const createReservation = async (req, res) => {
   const { nom, prenom, telephone, dateDebut, dateFin } = req.body;
   const salleId = req.params.id; // Récupération de l'ID de la salle depuis les paramètres de la requête
+  console.log("remplir tout le formulair");
   const utilisateurId = res.locals.userId; // Récupération de l'ID de l'utilisateur connecté
+
 
   console.log('Données de la réservation :');
   console.log('Nom :', nom);
@@ -15,11 +17,6 @@ export const createReservation = async (req, res) => {
   console.log('Date de fin :', dateFin);
   console.log('ID de la salle :', salleId);
   console.log('ID d utilisateur :', utilisateurId);
-
-  // if (d < f) {
-  //   res.status(400).json("date fin > d") 
-  //   return
-  // }
 
   // Vérifier la disponibilité de la salle
   const isSalleOccupied = await Reservation.exists({
@@ -212,41 +209,42 @@ export const getReservationsAnnulees = async (req, res) => {
 // CONFIRMER UNE RESRVATION
 export const confirmerReservationById = async (req, res) => {
   try {
+    console.log('here')
     const { reservationId } = req.params;
     const userId = res.locals.userId;
 
     // verifier le role de l'utilisateur
     const userRole = res.locals.role;
-    console.log('le role :', userRole);
+    // console.log('le role :', userRole);
     
     if (userRole !== 'gerant') {
-      throw new Error('acces  refusé. Seul le gerant peut confirmer la réservation.');
+      throw new Error('acces  refusé. Seul le gerant peut confirmer une réservation.');
     }
 
-    // chercher la réservation par ID
+    // chercher la réservation par son id
     const reservation = await Reservation.findById(reservationId).populate('salle');
-    console.log('réservation trouvéee:', reservation);
+    // console.log('réservation trouvéee:', reservation);
     if (!reservation) {
       throw new Error('réservation introuvable.');
     }
 
-    // verifier si l'utilisateur connecté est le gerant de la salle associée à la réservation
-    console.log('ID utilisateur connecté:', userId);
-    console.log('ID du gérant de la salle:', reservation.salle.user.toString());
-    if (reservation.salle.user.toString() !== userId) {
-      throw new Error('Accès refusé.NON autorisé à confirmer cette réservation.');
-    }
+    // // verifier si l'utilisateur connecté est le gerant de la salle associée à la réservation
+    // console.log('ID utilisateur connecté:', userId);
+    // console.log('ID du gérant de la salle:', reservation.salle.user.toString());
+    // if (reservation.salle.user.toString() !== userId) {
+    //   throw new Error('Accès refusé.NON autorisé à confirmer cette réservation.');
+    // }
 
-    // verifier si la salle associée à la réservation a été validée
-    if (reservation.salle.statut !== 'validée') {
-      throw new Error('La salle associée à cette réservation n\'a pas été validée.');
-    }
+    // // verifier si la salle associée à la réservation a été validée
+    // if (reservation.salle.statut !== 'validée') {
+    //   throw new Error('La salle associée à cette réservation n\'a pas été validée.');
+    // }
 
     // Mettre à jour le statut de la réservation en "Confirmée"
     reservation.statut = 'Confirmée';
     await reservation.save();
 
-    console.log('Réservation confirmée:', reservation);
+    // console.log('Réservation confirmée:', reservation);
 
     res.status(200).json({ message: 'La réservation a été confirmée avec succès', reservation });
   } catch (error) {
@@ -259,20 +257,19 @@ export const annulerReservationById = async (req, res) => {
   try {
     const { reservationId } = req.params;
     const userId = res.locals.userId;
-
+    console.log(userId)
     const reservation = await Reservation.findById(reservationId).populate('salle');
     console.log('Réservation trouvée:', reservation);
+
     if (!reservation) {
       throw new Error('Réservation introuvable.');
     }
 
-    console.log('ID de l\'utilisateur connecté:', userId);
-    console.log('ID du gérant de la salle:', reservation.salle.user.toString());
-    console.log('ID de l\'utilisateur qui a créé la réservation:', reservation.utilisateur.toString());
+ 
 
-    if (reservation.salle.user.toString() !== userId && reservation.utilisateur.toString() !== userId) {
-      throw new Error('Accès refusé. Vous n\'êtes pas autorisé à annuler cette réservation.');
-    }
+    // if (reservation.utilisateur.toString() !== userId) {
+    //   throw new Error('Accès refusé. Vous n\'êtes pas autorisé à annuler cette réservation.');
+    // }
 
     reservation.statut = 'Annulée';
     await reservation.save();
